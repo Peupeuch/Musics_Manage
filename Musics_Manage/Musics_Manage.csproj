@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="cancel.png" />
-    <Resource Include="settings.png" />
+    <Resource Include="Ressources\cancel.png" />
+    <Resource Include="Ressources\settings.png" />
   </ItemGroup>
 
   <ItemGroup>

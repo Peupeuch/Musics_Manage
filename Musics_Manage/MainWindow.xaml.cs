@@ -119,7 +119,7 @@ namespace Musics_Manage
 
             for (int i = 0; i < listResults.Count; i++)
             {
-                ResultTemplate resultTemplate = new ResultTemplate(session, listResults[i].Id);
+                UC_ResultTemplate resultTemplate = new UC_ResultTemplate(session, listResults[i].Id);
                 resultTemplate.Height = 160;
                 resultTemplate.Width = 133.125;
                 resultTemplate.VerticalAlignment = VerticalAlignment.Center;
@@ -138,7 +138,7 @@ namespace Musics_Manage
             }
         }
 
-        private void Playlist_Click(ResultTemplate resultTemplate)
+        private void Playlist_Click(UC_ResultTemplate resultTemplate)
         {
             list_Tracks.Items.Clear();
 
@@ -211,13 +211,9 @@ namespace Musics_Manage
                 }
             }
 
-            using (TextWriter errorFiles = new StreamWriter(Environment.CurrentDirectory + @"\errorfiles.json"))
-            {
-                foreach (string file in listErrorFiles)
-                {
-                    errorFiles.WriteLine(file);
-                }
-            }
+            string errorFilePath = Environment.CurrentDirectory + @"\errorfiles.json";
+            FileWriter errorFile = new FileWriter(errorFilePath);
+            errorFile.WriteFile(listErrorFiles, false);
         }
 
         private async void btn_createPlaylist_Click(object sender, RoutedEventArgs e)
@@ -295,37 +291,17 @@ namespace Musics_Manage
             listM3U.Insert(5, $"#Playlist link : {playlist.Link}");
             listM3U.Insert(6, $"#Created by : {playlist.CreatorName} / Id {playlist.Creator.Id}");
 
-            string m3uPath = pathSavePlaylists + @"\" + playlist.Title + @".m3u";
-
+            //Création du fichier m3u
             txt_progressBar.Text = "Création du fichier m3u";
-            if (!System.IO.File.Exists(m3uPath))
-            {
-                var creationFile = System.IO.File.Create(m3uPath);
-                creationFile.Close();
-            }
+            string m3uFilePath = pathSavePlaylists + @"\" + playlist.Title + @".m3u";
+            FileWriter m3uFile = new FileWriter(m3uFilePath);
+            m3uFile.WriteFile(listM3U, true);
 
-            using (TextWriter m3uTxt = new StreamWriter(m3uPath))
-            {
-                foreach (string line in listM3U)
-                {
-                    m3uTxt.WriteLine(line);
-                }
-            }
-
+            //Création du fichier à télécharger
             txt_progressBar.Text = "Création du fichier a dl";
-            if (!System.IO.File.Exists(pathSaveFilesToDl))
-            {
-                var creationFile = System.IO.File.Create(pathSaveFilesToDl);
-                creationFile.Close();
-            }
-
-            using (var dlTxt = new StreamWriter(pathSaveFilesToDl, true))
-            {
-                foreach (string line in listDl)
-                {
-                    dlTxt.WriteLine(line);
-                }
-            }
+            string dlFilePath = pathSaveFilesToDl + @"\" + "Musiques à télécharger.txt";
+            FileWriter dlFile = new FileWriter(dlFilePath);
+            m3uFile.WriteFile(listDl, false);
 
             txt_progressBar.Text = "Création de la playlist ok !";
         }

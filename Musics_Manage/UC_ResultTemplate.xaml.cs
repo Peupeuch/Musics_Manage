@@ -18,12 +18,12 @@ namespace Musics_Manage
     /// <summary>
     /// Logique d'interaction pour ResultTemplate.xaml
     /// </summary>
-    public partial class ResultTemplate : UserControl
+    public partial class UC_ResultTemplate : UserControl
     {
         private readonly Deezer session;
         public IPlaylist playlist;
 
-        public ResultTemplate(Deezer _session, ulong _id)
+        public UC_ResultTemplate(Deezer _session, ulong _id)
         {
             InitializeComponent();
 
