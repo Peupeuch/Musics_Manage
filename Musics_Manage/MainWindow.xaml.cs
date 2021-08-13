@@ -34,6 +34,8 @@ namespace Musics_Manage
         private int stepConnection = 0;
         private bool statusDeezer = false;
 
+        private List<LocalTrackInformation> listLocalTracks;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,7 +56,7 @@ namespace Musics_Manage
             string url2 = $"https://connect.deezer.com/oauth/access_token.php?app_id={appId}&secret={appPwd}&code=";
 
             switch (step)
-            {   
+            {
                 case 0:
                     LaunchBrowser(url1, "Veuillez entrer le code de votre site ici");
                     break;
@@ -92,7 +94,7 @@ namespace Musics_Manage
                 var ps = new ProcessStartInfo(url)
                 {
                     UseShellExecute = true,
-                    Verb = "open"
+                    Verb = "open",
                 };
                 Process.Start(ps);
                 txtBox_urlDeezer.Text = string.Empty;
@@ -120,8 +122,6 @@ namespace Musics_Manage
             for (int i = 0; i < listResults.Count; i++)
             {
                 UC_ResultTemplate resultTemplate = new UC_ResultTemplate(session, listResults[i].Id);
-                resultTemplate.Height = 160;
-                resultTemplate.Width = 133.125;
                 resultTemplate.VerticalAlignment = VerticalAlignment.Center;
                 resultTemplate.HorizontalAlignment = HorizontalAlignment.Center;
                 resultTemplate.MouseDown += (sender, e) => this.Playlist_Click(resultTemplate);
@@ -160,6 +160,7 @@ namespace Musics_Manage
             string str = time.ToString(@"mm\'ss");
             txt_dureePlaylist.Text = "Durée : " + str;
             txt_creatorPlaylist.Text = "Créateur : " + playlist.CreatorName;
+            txt_tracksPlaylist.Text = "Nombre de tracks : " + playlist.TrackCount;
             currentPlaylistId = playlist.Id;
         }
 
@@ -181,62 +182,51 @@ namespace Musics_Manage
         private async void btn_analyse_Click(object sender, RoutedEventArgs e)
         {
             txt_progressBar.Text = "Analyse des fichiers...";
-            string folder = pathLocalizeAllSongs;
-            string[] files = Directory.GetFiles(folder, "*.mp3", SearchOption.AllDirectories);
-            List<string> listErrorFiles = new List<string>();
-            using (TextWriter localTracksFile = new StreamWriter(Environment.CurrentDirectory + @"\localTracks.json"))
-            {
-                progressBar.Maximum = files.Length;
-                foreach (string file in files)
-                {
-                    try
-                    {
-                        var f = TagLib.File.Create(file);
-                        string title = f.Tag.Title;
-                        string[] artists = f.Tag.Performers;
-                        string album = f.Tag.Album;
-                        string isrc = f.Tag.ISRC;
-                        double duration = f.Properties.Duration.TotalSeconds;
-                        duration = Math.Round(duration);
-                        localTracksFile.WriteLine($"ISRC[{isrc}]/TITLE[{title}]/ARTISTS[{string.Join(',', artists)}]/ALBUM[{album}]/DUREE[{duration}]/PATH[{file}]");
-                        progressBar.Value++;
-                        txt_progressBar.Text = "Fichier " + progressBar.Value + "/" + files.Length + " analysé";
-                    }
-                    catch
-                    {
-                        listErrorFiles.Add(file);
-                    }
+            progressBar.Value = 0;
 
-                    await Task.Delay(5);
+            string[] files = Directory.GetFiles(pathLocalizeAllSongs, "*.mp3", SearchOption.AllDirectories);
+            progressBar.Maximum = files.Length;
+
+            List<string> listAnalyseFiles = new List<string>();
+            List<string> listErrorFiles = new List<string>();
+            listLocalTracks = new List<LocalTrackInformation>();
+
+            foreach (string file in files)
+            {
+                try
+                {
+                    LocalTrackInformation trackInfo = new LocalTrackInformation(InitType.FromAnalyse, file);
+                    listLocalTracks.Add(trackInfo);
+                    listAnalyseFiles.Add(trackInfo.GetLine());
+                    progressBar.Value++;
+                    txt_progressBar.Text = "Fichier " + progressBar.Value + "/" + files.Length + " analysé";
                 }
+                catch
+                {
+                    listErrorFiles.Add(file);
+                }
+                await Task.Delay(1);
             }
 
-            string errorFilePath = Environment.CurrentDirectory + @"\errorfiles.json";
-            FileWriter errorFile = new FileWriter(errorFilePath);
-            errorFile.WriteFile(listErrorFiles, false);
+            FileWriter analyseFiles = new FileWriter(Environment.CurrentDirectory + @"\localTracks.json");
+            analyseFiles.WriteFile(listAnalyseFiles, true);
+            FileWriter errorFile = new FileWriter(Environment.CurrentDirectory + @"\errorfiles.json");
+            errorFile.WriteFile(listErrorFiles, true);
         }
 
         private async void btn_createPlaylist_Click(object sender, RoutedEventArgs e)
         {
             txt_progressBar.Text = "Création de la playlist...";
+            progressBar.Value = 0;
+
             IPlaylist playlist = this.session.Browse.GetPlaylistById(currentPlaylistId).Result;
             IEnumerable<ITrack> tracks = playlist.GetTracks().Result;
-            string[] file = System.IO.File.ReadAllLines(Environment.CurrentDirectory + @"\localTracks.json");
-            List<string> listIrsc = new List<string>();
-            List<string> listTitle = new List<string>();
-            List<string> listArtists = new List<string>();
-            List<string> listAlbum = new List<string>();
-            List<string> listDuree = new List<string>();
-            List<string> listPath = new List<string>();
-            foreach (string line in file)
+            string[] files = System.IO.File.ReadAllLines(Environment.CurrentDirectory + @"\localTracks.json");
+            listLocalTracks = new List<LocalTrackInformation>();
+            foreach (string line in files)
             {
-                string[] match = line.Split('[', ']');
-                listIrsc.Add(line.Split('[', ']')[1]);
-                listTitle.Add(line.Split('[', ']')[3]);
-                listArtists.Add(line.Split('[', ']')[5]);
-                listAlbum.Add(line.Split('[', ']')[7]);
-                listDuree.Add(line.Split('[', ']')[9]);
-                listPath.Add(line.Split('[', ']')[11]);
+                LocalTrackInformation localTrack = new LocalTrackInformation(InitType.FromFileList, line);
+                listLocalTracks.Add(localTrack);
             }
 
             List<string> listM3U = new List<string>();
@@ -244,33 +234,31 @@ namespace Musics_Manage
             HttpClient client = new HttpClient();
 
             progressBar.Maximum = playlist.TrackCount;
-            progressBar.Value = 0;
 
             foreach (ITrack track in tracks)
             {
-                await Task.Delay(100);
                 string link = "http://api.deezer.com/track/" + track.Id.ToString();
                 HttpResponseMessage response = await client.GetAsync(link);
                 response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                string isrcSource = ReturnIsrc(responseBody);
-                bool state = false;
-                for (int i = 0; i < listIrsc.Count; i++)
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                string isrcSource = ReturnIsrc(apiResponse);
+                bool state = true;
+                for (int i = 0; i < listLocalTracks.Count; i++)
                 {
-                    if (listIrsc[i] == isrcSource)
+                    if (listLocalTracks[i].GetIsrc() == isrcSource)
                     {
-                        listM3U.Add($"#EXTINF:{listDuree[i]},{listArtists[i]} - {listTitle[i]}");
-                        listM3U.Add(listPath[i]);
-                        state = false;
+                        listM3U.Add($"#EXTINF:{listLocalTracks[i].GetDuration()},{listLocalTracks[i].GetArtists()[0]} - {listLocalTracks[i].GetTitle()}");
+                        listM3U.Add(listLocalTracks[i].GetPath());
+                        state = true;
                         break;
                     }
                     else
                     {
-                        state = true;
+                        state = false;
                     }
                 }
 
-                if (state)
+                if (!state)
                 {
                     listDl.Add($"{track.Title} - {track.Artist.Name}");
                     if (statusDeezer)
@@ -281,6 +269,7 @@ namespace Musics_Manage
 
                 progressBar.Value++;
                 txt_progressBar.Text = "Fichier " + progressBar.Value + "/" + playlist.TrackCount;
+                await Task.Delay(25);
             }
 
             listM3U.Insert(0, $"#EXTM3U");
@@ -309,9 +298,7 @@ namespace Musics_Manage
         private string ReturnIsrc(string text)
         {
             string[] split1 = text.Split("\"isrc\":\"", StringSplitOptions.None);
-            string isrc = split1[1].Split("\"", StringSplitOptions.None)[0];
-
-            return isrc;
+            return split1[1].Split("\"", StringSplitOptions.None)[0];
         }
 
         private void btn_connectDeezer_Click(object sender, RoutedEventArgs e)

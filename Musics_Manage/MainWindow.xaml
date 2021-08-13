@@ -244,7 +244,7 @@
         <!--Bouton quitter l'application-->
         <Grid Height="55" Width="70" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,012.5,0,0" Cursor="Hand" MouseDown="btn_Close_MouseDown">
             <Border BorderBrush="Black" BorderThickness="1"/>
-            <Rectangle x:Name="btn_Close" HorizontalAlignment="Center" VerticalAlignment="Top" Height="37" Margin="0,2,0,0" Width="37">
+            <Rectangle x:Name="btn_Close" HorizontalAlignment="Center" VerticalAlignment="Top" Height="37" Margin="0,3,0,0" Width="37">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/Ressources/cancel.png"/>
                 </Rectangle.Fill>

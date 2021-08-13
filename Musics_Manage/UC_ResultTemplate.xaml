@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Musics_Manage"
              mc:Ignorable="d" 
              d:DesignHeight="160" d:DesignWidth="130">
-    <Grid Cursor="Hand">
+    <Grid Cursor="Hand" Height="160" Width="130">
         <Rectangle x:Name="rectangle" Height="130" VerticalAlignment="Top" Width="130"/>
         <Border Height="30" Width="130" VerticalAlignment="Bottom">
             <TextBlock x:Name="text" Text="100% jean jacques goldman et toute la troupe des " VerticalAlignment="top" TextAlignment="Center" TextWrapping="Wrap" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
