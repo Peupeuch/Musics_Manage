@@ -1,0 +1,281 @@
+﻿<Window x:Class="Musics_Manage.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Musics_Manage"
+        mc:Ignorable="d"
+        Title="Application test" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.Resources>
+        <!--Template boutons-->
+        <Style TargetType="Border" x:Key="flatBorder">
+            <Setter Property="Border.Background" Value="#FF000047"/>
+            <Setter Property="Border.BorderBrush" Value="Black"/>
+            <Setter Property="Border.BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="Border.IsMouseOver" Value="True">
+                    <Setter Property="Border.Background" Value="#7F000047"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <sys:String x:Key="txt_connectionDeeezer">Informations de connexion Deezer</sys:String>
+
+        <!--Template couleur connection deezer-->
+        <VisualBrush x:Key="CueBannerBrushConnection" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="{DynamicResource txt_connectionDeeezer}" Foreground="LightGray" FontFamily=" Bahnschrift SemiBold Condensed" FontSize="18"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox connection deezer-->
+        <Style x:Key="txtBoxConnection" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{DynamicResource CueBannerBrushConnection}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{DynamicResource CueBannerBrushConnection}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template couleur recherche playlist-->
+        <VisualBrush x:Key="CueBannerBrushSearch" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="Rechercher une playlist..." Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox recherche playlist-->
+        <Style x:Key="txtBoxSearch" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushSearch}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushSearch}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 1-->
+        <VisualBrush x:Key="CueBannerBrushPrm1" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="App Id" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 1-->
+        <Style x:Key="txtBoxPrm1" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm1}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm1}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 2-->
+        <VisualBrush x:Key="CueBannerBrushPrm2" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="App Pwd" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 2-->
+        <Style x:Key="txtBoxPrm2" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm2}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm2}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 3-->
+        <VisualBrush x:Key="CueBannerBrushPrm3" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="App redirect Url" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 3-->
+        <Style x:Key="txtBoxPrm3" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm3}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm3}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 4-->
+        <VisualBrush x:Key="CueBannerBrushPrm4" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="Chemin sauvegarde playlists" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 4-->
+        <Style x:Key="txtBoxPrm4" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm4}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm4}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 5-->
+        <VisualBrush x:Key="CueBannerBrushPrm5" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="Chemin localisation des sons" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 5-->
+        <Style x:Key="txtBoxPrm5" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm5}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm5}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Template paramètre 6-->
+        <VisualBrush x:Key="CueBannerBrushPrm6" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+            <VisualBrush.Visual>
+                <Label Content="Chemin musiques à dl" Foreground="LightGray" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <!--Template TextBox paramètre 6-->
+        <Style x:Key="txtBoxPrm6" TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm6}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrushPrm6}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="#FF4359E2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FF4359E2" >
+        <!--TextBox pour rechercher une playlist-->
+        <TextBox Style="{StaticResource txtBoxSearch}" x:Name="txtBox_Search" HorizontalAlignment="Left" Height="30" Text="" Margin="5,185,0,0" FontFamily="Bahnschrift SemiBold Condensed" TextWrapping="Wrap" VerticalAlignment="Top" Width="632.5" FontSize="20" KeyDown="OnKeyDownHandler" SelectionTextBrush="{x:Null}" BorderBrush="Black" Foreground="Black"/>
+
+        <!--Panneau des résultats de la recherche playlist-->
+        <Border Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Height="710" Width="632.5" BorderBrush="Black" BorderThickness="1,1,1,1">
+            <Grid x:Name="grid_searchResults">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Border>
+
+        <!--Panneau affichage des résultats des tracks-->
+        <ListView x:Name="list_Tracks" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="632.5" Height="410" Background="#FF4359E2" BorderBrush="Black"/>
+
+        <!--Panneau affichage info playlist-->
+        <Grid Margin="5,220" VerticalAlignment="Top" HorizontalAlignment="Left" Width="632.5" Height="80">
+            <Border BorderBrush="Black" BorderThickness="1,1,1,1"/>
+            <TextBlock x:Name="txt_titlePlaylist" Height="20" Width="550" Margin="5,5,0,0" Text="Playlist : " HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" FontSize="16"/>
+            <TextBlock x:Name="txt_dureePlaylist" Height="20" Margin="5,30,0,0" Text="Durée : 25:05" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" FontSize="16"/>
+            <TextBlock x:Name="txt_tracksPlaylist" Height="20" Margin="110,30,5,0" Text="Nombre de tracks : " Width="445" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" FontSize="16"/>
+            <TextBlock x:Name="txt_creatorPlaylist" Height="20" Margin="5,55,5,0" Text="Creator : " Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold Condensed" FontSize="16"/>
+            <Image x:Name="img_coverPlaylist" Height="60" Width="60" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+        </Grid>
+
+        <!--Bouton analyser les sons-->
+        <Border Style="{StaticResource flatBorder}" x:Name="btn_analyse" HorizontalAlignment="Left" Height="30" Margin="5,115,0,0" VerticalAlignment="Top" Width="150" MouseDown="btn_analyse_Click" BorderBrush="Black" Cursor="Hand">
+            <TextBlock Text="Analyser mes sons" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+        <!--Bouton créer la playlist-->
+        <Border Style="{StaticResource flatBorder}" x:Name="btn_createPlaylist" HorizontalAlignment="Left" Height="30" Margin="160,115,0,0" VerticalAlignment="Top" Width="150" MouseDown="btn_createPlaylist_Click" BorderBrush="Black" Cursor="Hand">
+            <TextBlock Text="Créer la playlist" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+        <!--Bouton connexion deezer-->
+        <Border Style="{StaticResource flatBorder}" x:Name="btn_connectDeezer" HorizontalAlignment="Left" Height="30" Margin="5,80,0,0" VerticalAlignment="Top" Width="150" MouseDown="btn_connectDeezer_Click" BorderBrush="Black" Cursor="Hand">
+            <TextBlock x:Name="txt_connectDeezer" Text="Connecter deezer" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+        <!--Grid progress bar-->
+        <Grid HorizontalAlignment="Left" Height="30" Margin="5,150,0,0" VerticalAlignment="Top" Width="632.5" >
+            <ProgressBar x:Name="progressBar" Foreground="#FF000047" BorderBrush="Black" Background="White"/>
+            <TextBlock x:Name="txt_progressBar" VerticalAlignment="Center" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18" Foreground="#FF4359E2"/>
+        </Grid>
+
+        <TextBox Style="{StaticResource txtBoxConnection}" x:Name="txtBox_urlDeezer" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center" SelectionTextBrush="{x:Null}" Height="30" Width="477.5" Margin="160,80,0,0" FontFamily="Bahnschrift SemiBold Condensed" FontSize="18" BorderBrush="Black" KeyDown="OnKeyDownHandler" Foreground="Black"/>
+
+        <!--Boutons paramètres-->
+        <Rectangle x:Name="btn_parameters" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Margin="45,22.5,0,0" Width="35" Cursor="Hand" MouseDown="btn_parameters_MouseDown">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/settings.png"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle x:Name="btn_Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Margin="10,25,0,0" Width="30" Cursor="Hand" MouseDown="btn_Close_MouseDown">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/cancel.png"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <TextBox x:Name="txtBox_prm1" Style="{StaticResource txtBoxPrm1}" HorizontalAlignment="Left" Height="20" Margin="90,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+        <TextBox x:Name="txtBox_prm2" Style="{StaticResource txtBoxPrm2}" HorizontalAlignment="Left" Height="20" Margin="90,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+        <TextBox x:Name="txtBox_prm3" Style="{StaticResource txtBoxPrm3}" HorizontalAlignment="Left" Height="20" Margin="90,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+        <TextBox x:Name="txtBox_prm4" Style="{StaticResource txtBoxPrm4}" HorizontalAlignment="Left" Height="20" Margin="350,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287.5"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+        <TextBox x:Name="txtBox_prm5" Style="{StaticResource txtBoxPrm5}" HorizontalAlignment="Left" Height="20" Margin="350,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287.5"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+        <TextBox x:Name="txtBox_prm6" Style="{StaticResource txtBoxPrm6}" HorizontalAlignment="Left" Height="20" Margin="350,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287.5"  FontFamily="Bahnschrift SemiBold Condensed" Foreground="Black" SelectionTextBrush="{x:Null}" BorderBrush="Black"/>
+
+    </Grid>
+</Window>

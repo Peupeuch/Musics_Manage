@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Musics_Manage.UC_Tracklist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Musics_Manage"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="770">
+    <Grid Background="#FFF9F9F9">
+        <Rectangle x:Name="rect_Cover" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Height="50" Width="50"/>
+        <Border Height="60" Width="385" HorizontalAlignment="Left" Margin="60,0,0,0">
+            <TextBlock x:Name="txt_Title" FontFamily="Bahnschrift SemiBold Condensed" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Bande organisée" TextWrapping="Wrap" FontSize="18"/>
+        </Border>
+        <Border Height="60" Width="250" HorizontalAlignment="Left" Margin="450,0,0,0">
+            <TextBlock x:Name="txt_Artist" FontFamily="Bahnschrift SemiBold Condensed" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Bande organisée" TextWrapping="Wrap" FontSize="18"/>
+        </Border>
+        <Border Height="60" Width="60" HorizontalAlignment="Right" Margin="0,0,5,0">
+            <TextBlock x:Name="txt_Duration" FontFamily="Bahnschrift SemiBold Condensed" HorizontalAlignment="Center" VerticalAlignment="Center" Text="5:05" TextWrapping="Wrap" FontSize="18"/>
+        </Border>
+    </Grid>
+</UserControl>

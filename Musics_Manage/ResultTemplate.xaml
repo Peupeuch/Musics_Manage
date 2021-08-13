@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Musics_Manage.ResultTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Musics_Manage"
+             mc:Ignorable="d" 
+             d:DesignHeight="160" d:DesignWidth="130">
+    <Grid Cursor="Hand">
+        <Rectangle x:Name="rectangle" Height="130" VerticalAlignment="Top" Width="130"/>
+        <Border Height="30" Width="130" VerticalAlignment="Bottom">
+            <TextBlock x:Name="text" Text="100% jean jacques goldman et toute la troupe des " VerticalAlignment="top" TextAlignment="Center" TextWrapping="Wrap" FontFamily="Bahnschrift SemiBold Condensed" FontSize="12"/>
+        </Border>
+        <Border Background="#B2CDAFAF" Height="12" Width="20" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Black">
+            <TextBlock x:Name="nbChansons" Text="10 " VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="10"/>
+        </Border>
+    </Grid>
+</UserControl>
